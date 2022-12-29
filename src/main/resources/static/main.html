@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>lab4</title>
+    <link href="css/main_style.css" rel="stylesheet"/>
+    <script src="https://cdn.anychart.com/releases/8.11.0/js/graphics.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet"/>
+    <script src="js/jquery.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <table id="header-table">
+        <tr>
+          <td class="holder header-holder">
+            Peredriy Mihail
+          </td>
+          <td class="holder header-holder">
+            P32102
+          </td>
+          <td class="holder header-holder">
+            15802
+          </td>
+          <td class="holder header-holder">
+            <button id="logout-button" @click="logout()">
+              logout
+            </button>
+          </td>
+        </tr>
+      </table>
+      <div id="content-holder">
+        <table id="gs-table">
+          <tr>
+            <td class="holder gs-holder">
+              <div class="holder" id="graph-holder">
+                <!-- graph -->
+              </div>
+            </td>
+            <td class="holder gs-holder">
+              <div id="selectors-holder">
+                <div class="holder selector-holder x-selector-holder">
+                  <label>X: </label>
+                  <label for="x_-2">-2</label>
+                  <input id="x_-2" type="radio" name="x" value="-2" v-model="x"/>
+                  <label for="x_-1.5">-1.5</label>
+                  <input id="x_-1.5" type="radio" name="x" value="-1.5" v-model="x"/>
+                  <label for="x_-1">-1</label>
+                  <input id="x_-1" type="radio" name="x" value="-1" v-model="x"/>
+                  <label for="x_-0.5">-0.5</label>
+                  <input id="x_-0.5" type="radio" name="x" value="-0.5" v-model="x"/>
+                  <label for="x_0">0</label>
+                  <input id="x_0" type="radio" name="x" value="0" v-model="x"/>
+                  <label for="x_0.5">0.5</label>
+                  <input id="x_0.5" type="radio" name="x" value="0.5" v-model="x"/>
+                  <label for="x_1">1</label>
+                  <input id="x_1" type="radio" name="x" value="1" v-model="x"/>
+                  <label for="x_1.5">1.5</label>
+                  <input id="x_1.5" type="radio" name="x" value="1.5" v-model="x"/>
+                  <label for="x_2">2</label>
+                  <input id="x_2" type="radio" name="x" value="2" v-model="x"/>
+                </div>
+
+                <div class="holder selector-holder y-selector-holder">
+                  <label for="y-input">Y: </label>
+                  <input v-model="y" id="y-input"/>
+                </div>
+
+                <div class="holder selector-holder r-selector-holder">
+                  <label>R: </label>
+                  <label for="r_0.5">0.5</label>
+                  <input id="r_0.5" type="radio" name="r" value="0.5" v-model="r"/>
+                  <label for="r_1">1</label>
+                  <input id="r_1" type="radio" name="r" value="1" v-model="r"/>
+                  <label for="r_1.5">1.5</label>
+                  <input id="r_1.5" type="radio" name="r" value="1.5" v-model="r"/>
+                  <label for="r_2">2</label>
+                  <input id="r_2" type="radio" name="r" value="2" v-model="r"/>
+                </div>
+
+                <button @click="addAttempt()" id="send-button">add</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div id="results-table-holder">
+          <table id="results-table">
+            <tr>
+              <td class="holder results-header-holder">id</td>
+              <td class="holder results-header-holder">x</td>
+              <td class="holder results-header-holder">y</td>
+              <td class="holder results-header-holder">r</td>
+              <td class="holder results-header-holder">result</td>
+              <td class="holder results-header-holder">processed at</td>
+              <td class="holder results-header-holder">processing time</td>
+              <td class="holder results-header-holder">owner</td>
+            </tr>
+            <tr v-for="attempt in attempts" :key = "attempt.id">
+              <td class="holder results-header-holder">{{ attempt.id }}</td>
+              <td class="holder results-header-holder">{{ attempt.x }}</td>
+              <td class="holder results-header-holder">{{ attempt.y }}</td>
+              <td class="holder results-header-holder">{{ attempt.r }}</td>
+              <td class="holder results-header-holder">{{ attempt.result }}</td>
+              <td class="holder results-header-holder">{{ attempt.processedAt }}</td>
+              <td class="holder results-header-holder">{{ attempt.processingTime }}</td>
+              <td class="holder results-header-holder">{{ attempt.owner }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/validators.js"></script>
+    <script src="js/attempts.js"></script>
+    <script src="js/graph.js"></script>
+
+  </body>
+</html>
+
+
+<script type="module">
+
+  import { createApp, ref, onMounted, onUnmounted, onUpdated, nextTick } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+
+  createApp({
+    setup() {
+      let x = ref(1);
+      let y = ref(1);
+      let r = ref(1);
+
+      let attempts = ref([]);
+
+
+      ajaxLoadAttempts(attempts);
+
+      function addAttempt() {
+        if (validateX(x.value)) {
+          if (validateY(y.value)) {
+            if (validateR(r.value)) {
+              ajaxAddAttempt(attempts, new Dot(parseFloat(x.value), parseFloat(y.value), parseFloat(r.value)));
+            }
+            else alert("R is incorrect :(");
+          }
+          else alert("Y is incorrect :(");
+        }
+        else alert("X is incorrect :(");
+      }
+
+      onMounted(() => {
+        window.addEventListener("resize", () => plotGraph(attempts, r));
+      })
+
+      onUnmounted(() => {
+        window.removeEventListener("resize", () => plotGraph(attempts, r));
+      })
+
+      onUpdated(() => {
+        nextTick(() => plotGraph(attempts, r));
+      })
+
+      function logout() {
+        window.location.replace("/logout");
+      }
+
+      return {
+        addAttempt,
+        logout,
+        attempts,
+        x,
+        y,
+        r,
+      }
+    }
+  }).mount('#root')
+</script>

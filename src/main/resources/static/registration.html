@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>registration</title>
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+    <div id="root">
+        <input type="text" v-model="user.username" id="username"/>
+        <input type="password" v-model="user.password" id="password"/>
+        <button @click="registration()">registration</button>
+    </div>
+</body>
+</html>
+
+
+
+<script type="module">
+
+    import { createApp, ref, onMounted, onUnmounted, onUpdated, nextTick } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+
+    createApp({
+        setup() {
+            class User {
+                constructor(username, password) {
+                    this.username = username;
+                    this.password = password;
+                }
+            }
+
+            let user = ref(new User());
+
+            function registration() {
+                $.ajax({
+                    url: "/registration",
+                    method: "post",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(user.value),
+                    success: function(resp) {
+                        window.location.replace("/login");
+                    },
+                    error: function() {
+                        alert("user with this username already exists")
+                    }
+                })
+            }
+
+            return {
+                user,
+                registration,
+            }
+        }
+    }).mount('#root')
+</script>
