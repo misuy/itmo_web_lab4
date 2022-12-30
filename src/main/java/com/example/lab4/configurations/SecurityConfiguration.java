@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -31,11 +32,14 @@ public class SecurityConfiguration {
 
     @Bean
     public JdbcUserDetailsManager users(@Autowired DataSource dataSource) {
-        UserDetails user = User.builder().username("misuy").password("{bcrypt}$2a$12$p.SBhnoIsLaCijU3vjHlXuODQA016SZhfZGC6fpTanJKRQxoO95QO").roles("USER").build();
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        if (!jdbcUserDetailsManager.userExists(user.getUsername())) jdbcUserDetailsManager.createUser(user);
+        System.out.println(jdbcUserDetailsManager);
         return jdbcUserDetailsManager;
-        DaoSupp
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

@@ -60,18 +60,22 @@ function drawCoordinates(stage, width, height, xMiddle, yMiddle, r) {
 function drawShape(stage, width, height, xMiddle, yMiddle, r) {
     let linePath = stage.path()
     
-    linePath.moveTo(xMiddle, yMiddle-r/2)
-    //drawing arc
-    linePath.arcTo(r/2, r/2, 270, 90, r/2)
-    
-    //drawing triangle
-    linePath.lineTo(xMiddle, yMiddle+r/2)
+    linePath.moveTo(xMiddle, yMiddle)
     
     //drawing rectangle
-    linePath.lineTo(xMiddle-r, yMiddle+r/2)
-    linePath.lineTo(xMiddle-r, yMiddle)
+    linePath.lineTo(xMiddle, yMiddle-r)
+    linePath.lineTo(xMiddle+r, yMiddle-r)
+    linePath.lineTo(xMiddle+r, yMiddle)
+    linePath.lineTo(xMiddle+r/2, yMiddle)
+    
+    //drawing triangle
+    linePath.lineTo(xMiddle, yMiddle+r)
+    
+    //drawing arc
+    linePath.arcTo(r, r, 90, 90, r/2)
+    
     linePath.lineTo(xMiddle, yMiddle)
-    linePath.lineTo(xMiddle, yMiddle-r/2)
+    
     
     linePath.stroke(secondColor)
     linePath.fill(secondColor)
@@ -96,7 +100,6 @@ function plotGraph(attemptsRel, rRel) {
     stage.removeChildren();
     const width = document.getElementById("graph-holder").clientWidth;
     const height = document.getElementById("graph-holder").clientHeight;
-    console.log(width, height);
     const xMiddle = width / 2;
     const yMiddle = height / 2;
     const r = Math.min(width, height) * 0.4;
@@ -106,7 +109,6 @@ function plotGraph(attemptsRel, rRel) {
     drawShape(stage, width, height, xMiddle, yMiddle, r);
     
     attempts.forEach(attempt => {
-        console.log(currentR, attempt.r);
         if (currentR === attempt.r) drawAttempt(stage, width, height, xMiddle, yMiddle, r, attempt);
     })
     
@@ -132,7 +134,6 @@ function clickHandler(event, r, r_pixels, attemptsRel) {
     else {
         let x = (x_pos - x_middle) * r / r_pixels;
         let y = (y_middle - y_pos) * r / r_pixels;
-        console.log(x, y);
         if (validateX(x.toString())) {
             if (validateY(y.toString())) {
                 if (validateR(r.toString())) {

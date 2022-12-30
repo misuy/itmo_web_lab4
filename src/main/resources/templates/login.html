@@ -19,7 +19,7 @@
 
         .header-holder {
             font-size: large;
-            width: 33.3%;
+            width: 25%;
         }
 
         input[type="submit"] {
@@ -43,6 +43,13 @@
             font-size: large;
         }
 
+        button {
+            background-color: rgba(33, 150, 243, 0.7);
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: large;
+        }
+
     </style>
 </head>
 <body>
@@ -56,6 +63,9 @@
         </td>
         <td class="holder header-holder">
             15802
+        </td>
+        <td class="holder header-holder">
+            <button onclick="registration()">registration</button>
         </td>
     </tr>
 </table>
@@ -73,5 +83,10 @@
         <input type="submit" value="login"/>
     </form>
 </div>
+<script>
+    function registration() {
+        window.location.replace("/registration.html");
+    }
+</script>
 </body>
 </html>

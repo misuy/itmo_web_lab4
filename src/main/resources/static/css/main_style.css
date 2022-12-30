@@ -11,6 +11,10 @@
     width: 100%;
 }
 
+#graph-holder-mobile-holder {
+    height: 400px;
+}
+
 .header-holder {
     width: 25%;
     font-size: large;
@@ -42,6 +46,21 @@ button {
     font-size: large;
 }
 
+label {
+    font-size: large;
+}
+
+input[type="text"] {
+    border: 2px solid black;
+    border-radius: 5px;
+    font-size: large;
+}
+
+input[type="radio"] {
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
 #results-table {
     width: 100%;
     border: 1px solid black;
@@ -49,6 +68,5 @@ button {
 }
 
 .results-header-holder {
-    width: 12.5%;
     border: 1px solid black;
 }

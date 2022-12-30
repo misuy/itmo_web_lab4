@@ -3,13 +3,82 @@
 <head>
     <title>registration</title>
     <script src="js/jquery.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet"/>
+    <style>
+        * {
+            font-family: "Roboto";
+        }
+
+        .holder {
+            vertical-align: center;
+            text-align: center;
+        }
+
+        #header-table {
+            width: 100%;
+        }
+
+        .header-holder {
+            font-size: large;
+            width: 25%;
+        }
+
+        button {
+            font-size: large;
+            background-color: rgba(33, 150, 243, 0.7);
+            border: 2px solid black;
+            border-radius: 5px;
+            margin: 20px 20px 20px 20px;
+        }
+
+        input[type="text"] {
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        input[type="password"] {
+            border: 2px solid black;
+            border-radius: 5px;
+        }
+
+        input {
+            margin: 20px 20px 20px 20px;
+            font-size: large;
+        }
+
+    </style>
 </head>
 <body>
-    <div id="root">
-        <input type="text" v-model="user.username" id="username"/>
-        <input type="password" v-model="user.password" id="password"/>
-        <button @click="registration()">registration</button>
+<div id="root">
+    <table id="header-table">
+        <tr>
+            <td class="holder header-holder">
+                Peredriy Mihail
+            </td>
+            <td class="holder header-holder">
+                P32102
+            </td>
+            <td class="holder header-holder">
+                15802
+            </td>
+            <td class="holder header-holder">
+                <button @click="login()">login</button>
+            </td>
+        </tr>
+    </table>
+
+    <div class="holder">
+        <div class="holder">
+            <input type="text" v-model="user.username" id="username" placeholder="username"/>
+        </div>
+        <div class="holder">
+            <input type="password" v-model="user.password" id="password" placeholder="password"/>
+        </div>
+        <div class="holder">
+            <button @click="registration()">registration</button>
+        </div>
     </div>
+</div>
 </body>
 </html>
 
@@ -35,7 +104,6 @@
                     url: "/registration",
                     method: "post",
                     contentType: "application/json",
-                    dataType: "json",
                     data: JSON.stringify(user.value),
                     success: function(resp) {
                         window.location.replace("/login");
@@ -46,9 +114,14 @@
                 })
             }
 
+            function login() {
+                window.location.replace("/login");
+            }
+
             return {
                 user,
                 registration,
+                login,
             }
         }
     }).mount('#root')

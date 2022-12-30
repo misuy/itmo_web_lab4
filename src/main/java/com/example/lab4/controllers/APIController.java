@@ -3,6 +3,7 @@ package com.example.lab4.controllers;
 import com.example.lab4.repositories.AttemptsRepository;
 import com.example.lab4.entities.Attempt;
 import com.example.lab4.entities.Dot;
+import com.example.lab4.util.DotValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,13 @@ public class APIController {
     }
 
     @GetMapping("/getAllAttempts")
-    public List<Attempt> getAllAttempts() {
-        return this.repository.findAll();
+    public List<Attempt> getAllAttempts(@Autowired Principal principal) {
+        return this.repository.findAttemptByOwner(principal.getName());
     }
 
     @PostMapping("/addAttempt")
-    public Attempt addAttempt(@RequestBody Dot dot, @Autowired Principal principal) {
+    public Attempt addAttempt(@RequestBody Dot dot, @Autowired Principal principal) throws IllegalArgumentException {
+        if (!DotValidator.validate(dot)) throw new IllegalArgumentException();
         return this.repository.save(new Attempt(dot, System.nanoTime(), principal.getName()));
     }
 }

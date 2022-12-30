@@ -28,59 +28,114 @@
         </tr>
       </table>
       <div id="content-holder">
-        <table id="gs-table">
-          <tr>
-            <td class="holder gs-holder">
-              <div class="holder" id="graph-holder">
-                <!-- graph -->
-              </div>
-            </td>
-            <td class="holder gs-holder">
-              <div id="selectors-holder">
-                <div class="holder selector-holder x-selector-holder">
-                  <label>X: </label>
-                  <label for="x_-2">-2</label>
-                  <input id="x_-2" type="radio" name="x" value="-2" v-model="x"/>
-                  <label for="x_-1.5">-1.5</label>
-                  <input id="x_-1.5" type="radio" name="x" value="-1.5" v-model="x"/>
-                  <label for="x_-1">-1</label>
-                  <input id="x_-1" type="radio" name="x" value="-1" v-model="x"/>
-                  <label for="x_-0.5">-0.5</label>
-                  <input id="x_-0.5" type="radio" name="x" value="-0.5" v-model="x"/>
-                  <label for="x_0">0</label>
-                  <input id="x_0" type="radio" name="x" value="0" v-model="x"/>
-                  <label for="x_0.5">0.5</label>
-                  <input id="x_0.5" type="radio" name="x" value="0.5" v-model="x"/>
-                  <label for="x_1">1</label>
-                  <input id="x_1" type="radio" name="x" value="1" v-model="x"/>
-                  <label for="x_1.5">1.5</label>
-                  <input id="x_1.5" type="radio" name="x" value="1.5" v-model="x"/>
-                  <label for="x_2">2</label>
-                  <input id="x_2" type="radio" name="x" value="2" v-model="x"/>
+        <template v-if="layoutType !== LayoutType.MOBILE">
+          <table id="gs-table">
+            <tr>
+              <td class="holder gs-holder">
+                <div class="holder" id="graph-holder">
+                  <!-- graph -->
                 </div>
+              </td>
+              <td class="holder gs-holder">
+                <div id="selectors-holder">
+                  <div class="holder selector-holder x-selector-holder">
+                    <label>X: </label>
+                    <label for="x_-2">-2</label>
+                    <input id="x_-2" type="radio" name="x" value="-2" v-model="x"/>
+                    <label for="x_-1.5">-1.5</label>
+                    <input id="x_-1.5" type="radio" name="x" value="-1.5" v-model="x"/>
+                    <label for="x_-1">-1</label>
+                    <input id="x_-1" type="radio" name="x" value="-1" v-model="x"/>
+                    <label for="x_-0.5">-0.5</label>
+                    <input id="x_-0.5" type="radio" name="x" value="-0.5" v-model="x"/>
+                    <label for="x_0">0</label>
+                    <input id="x_0" type="radio" name="x" value="0" v-model="x"/>
+                    <label for="x_0.5">0.5</label>
+                    <input id="x_0.5" type="radio" name="x" value="0.5" v-model="x"/>
+                    <label for="x_1">1</label>
+                    <input id="x_1" type="radio" name="x" value="1" v-model="x"/>
+                    <label for="x_1.5">1.5</label>
+                    <input id="x_1.5" type="radio" name="x" value="1.5" v-model="x"/>
+                    <label for="x_2">2</label>
+                    <input id="x_2" type="radio" name="x" value="2" v-model="x"/>
+                  </div>
 
-                <div class="holder selector-holder y-selector-holder">
-                  <label for="y-input">Y: </label>
-                  <input v-model="y" id="y-input"/>
+                  <div class="holder selector-holder y-selector-holder">
+                    <label for="y-input">Y: </label>
+                    <input type="text" v-model="y" id="y-input"/>
+                  </div>
+
+                  <div class="holder selector-holder r-selector-holder">
+                    <label>R: </label>
+                    <label for="r_0.5">0.5</label>
+                    <input id="r_0.5" type="radio" name="r" value="0.5" v-model="r"/>
+                    <label for="r_1">1</label>
+                    <input id="r_1" type="radio" name="r" value="1" v-model="r"/>
+                    <label for="r_1.5">1.5</label>
+                    <input id="r_1.5" type="radio" name="r" value="1.5" v-model="r"/>
+                    <label for="r_2">2</label>
+                    <input id="r_2" type="radio" name="r" value="2" v-model="r"/>
+                  </div>
+
+                  <button @click="addAttempt()" id="send-button">add</button>
                 </div>
+              </td>
+            </tr>
+          </table>
+        </template>
+        <template v-if="layoutType === LayoutType.MOBILE">
+          <div id="graph-holder-mobile-holder">
+            <div class="holder" id="graph-holder">
+              <!-- graph -->
+            </div>
+          </div>
 
-                <div class="holder selector-holder r-selector-holder">
-                  <label>R: </label>
-                  <label for="r_0.5">0.5</label>
-                  <input id="r_0.5" type="radio" name="r" value="0.5" v-model="r"/>
-                  <label for="r_1">1</label>
-                  <input id="r_1" type="radio" name="r" value="1" v-model="r"/>
-                  <label for="r_1.5">1.5</label>
-                  <input id="r_1.5" type="radio" name="r" value="1.5" v-model="r"/>
-                  <label for="r_2">2</label>
-                  <input id="r_2" type="radio" name="r" value="2" v-model="r"/>
-                </div>
+          <div id="selectors-holder">
+            <div class="holder selector-holder x-selector-holder">
+              <label>X: </label>
+              <label for="x_-2">-2</label>
+              <input id="x_-2" type="radio" name="x" value="-2" v-model="x"/>
+              <label for="x_-1.5">-1.5</label>
+              <input id="x_-1.5" type="radio" name="x" value="-1.5" v-model="x"/>
+              <label for="x_-1">-1</label>
+              <input id="x_-1" type="radio" name="x" value="-1" v-model="x"/>
+              <label for="x_-0.5">-0.5</label>
+              <input id="x_-0.5" type="radio" name="x" value="-0.5" v-model="x"/>
+              <label for="x_0">0</label>
+              <input id="x_0" type="radio" name="x" value="0" v-model="x"/>
+              <label for="x_0.5">0.5</label>
+              <input id="x_0.5" type="radio" name="x" value="0.5" v-model="x"/>
+              <label for="x_1">1</label>
+              <input id="x_1" type="radio" name="x" value="1" v-model="x"/>
+              <label for="x_1.5">1.5</label>
+              <input id="x_1.5" type="radio" name="x" value="1.5" v-model="x"/>
+              <label for="x_2">2</label>
+              <input id="x_2" type="radio" name="x" value="2" v-model="x"/>
+            </div>
 
-                <button @click="addAttempt()" id="send-button">add</button>
-              </div>
-            </td>
-          </tr>
-        </table>
+            <div class="holder selector-holder y-selector-holder">
+              <label for="y-input">Y: </label>
+              <input type="text" v-model="y" id="y-input"/>
+            </div>
+
+            <div class="holder selector-holder r-selector-holder">
+              <label>R: </label>
+              <label for="r_0.5">0.5</label>
+              <input id="r_0.5" type="radio" name="r" value="0.5" v-model="r"/>
+              <label for="r_1">1</label>
+              <input id="r_1" type="radio" name="r" value="1" v-model="r"/>
+              <label for="r_1.5">1.5</label>
+              <input id="r_1.5" type="radio" name="r" value="1.5" v-model="r"/>
+              <label for="r_2">2</label>
+              <input id="r_2" type="radio" name="r" value="2" v-model="r"/>
+            </div>
+
+            <div class="holder selector-holder" id="send-button-holder">
+              <button @click="addAttempt()" id="send-button">add</button>
+            </div>
+          </div>
+
+        </template>
         <div id="results-table-holder">
           <table id="results-table">
             <tr>
@@ -89,19 +144,25 @@
               <td class="holder results-header-holder">y</td>
               <td class="holder results-header-holder">r</td>
               <td class="holder results-header-holder">result</td>
-              <td class="holder results-header-holder">processed at</td>
-              <td class="holder results-header-holder">processing time</td>
-              <td class="holder results-header-holder">owner</td>
+              <template v-if="layoutType !== LayoutType.MOBILE">
+                <td class="holder results-header-holder">processed at</td>
+                <td class="holder results-header-holder">processing time</td>
+                <td v-if="layoutType == LayoutType.DESKTOP" class="holder results-header-holder">owner</td>
+              </template>
             </tr>
             <tr v-for="attempt in attempts" :key = "attempt.id">
-              <td class="holder results-header-holder">{{ attempt.id }}</td>
-              <td class="holder results-header-holder">{{ attempt.x }}</td>
-              <td class="holder results-header-holder">{{ attempt.y }}</td>
-              <td class="holder results-header-holder">{{ attempt.r }}</td>
-              <td class="holder results-header-holder">{{ attempt.result }}</td>
-              <td class="holder results-header-holder">{{ attempt.processedAt }}</td>
-              <td class="holder results-header-holder">{{ attempt.processingTime }}</td>
-              <td class="holder results-header-holder">{{ attempt.owner }}</td>
+              <template v-if="attempt.r == r">
+                <td class="holder results-header-holder">{{ attempt.id }}</td>
+                <td class="holder results-header-holder">{{ attempt.x }}</td>
+                <td class="holder results-header-holder">{{ attempt.y }}</td>
+                <td class="holder results-header-holder">{{ attempt.r }}</td>
+                <td class="holder results-header-holder">{{ attempt.result }}</td>
+                <template v-if="layoutType !== LayoutType.MOBILE">
+                  <td class="holder results-header-holder">{{ attempt.processedAt }}</td>
+                  <td class="holder results-header-holder">{{ attempt.processingTime }}</td>
+                  <td v-if="layoutType == LayoutType.DESKTOP" class="holder results-header-holder">{{ attempt.owner }}</td>
+                </template>
+              </template>
             </tr>
           </table>
         </div>
@@ -128,6 +189,17 @@
 
       let attempts = ref([]);
 
+      const LayoutType = { DESKTOP: 0, TABLET: 1, MOBILE: 2}
+
+      let layoutType = ref(LayoutType.DESKTOP);
+      function calculateLayoutType() {
+        console.log(window.innerWidth);
+        if (window.innerWidth < 872) layoutType.value = LayoutType.MOBILE;
+        else if (window.innerWidth < 1148) layoutType.value = LayoutType.TABLET;
+        else layoutType.value = LayoutType.DESKTOP;
+      }
+      calculateLayoutType();
+
 
       ajaxLoadAttempts(attempts);
 
@@ -146,10 +218,12 @@
 
       onMounted(() => {
         window.addEventListener("resize", () => plotGraph(attempts, r));
+        window.addEventListener("resize", () => calculateLayoutType());
       })
 
       onUnmounted(() => {
         window.removeEventListener("resize", () => plotGraph(attempts, r));
+        window.removeEventListener("resize", () => calculateLayoutType());
       })
 
       onUpdated(() => {
@@ -167,6 +241,8 @@
         x,
         y,
         r,
+        layoutType,
+        LayoutType,
       }
     }
   }).mount('#root')
