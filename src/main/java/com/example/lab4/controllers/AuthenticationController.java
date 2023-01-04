@@ -39,6 +39,11 @@ public class AuthenticationController {
     public @ResponseBody void newUser(@RequestBody UserDto user, @Autowired BCryptPasswordEncoder bCryptPasswordEncoder) throws IllegalArgumentException {
         if (users.userExists(user.getUsername())) throw new IllegalArgumentException("Username already exists");
         users.createUser(User.builder().username(user.getUsername()).password(bCryptPasswordEncoder.encode(user.getPassword())).roles("USER").build());
-        System.out.println("yes");
     }
+
+    @GetMapping("/main")
+    public String main() {
+        return "main";
+    }
+
 }

@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
   <head>
     <title>lab4</title>
-    <link href="css/main_style.css" rel="stylesheet"/>
+    <link href="/css/main_style.css" rel="stylesheet"/>
     <script src="https://cdn.anychart.com/releases/8.11.0/js/graphics.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet"/>
-    <script src="js/jquery.js"></script>
+    <script src="/js/jquery.js"></script>
   </head>
   <body>
+    <input type="hidden" id="csrf-token" th:value="${_csrf.token}"/>
+    <input type="hidden" id="csrf-token-header" th:value="${_csrf.headerName}"/>
     <div id="root">
       <table id="header-table">
         <tr>
@@ -169,9 +171,9 @@
       </div>
     </div>
 
-    <script src="js/validators.js"></script>
-    <script src="js/attempts.js"></script>
-    <script src="js/graph.js"></script>
+    <script src="/js/validators.js"></script>
+    <script src="/js/attempts.js"></script>
+    <script src="/js/graph.js"></script>
 
   </body>
 </html>
@@ -231,7 +233,18 @@
       })
 
       function logout() {
-        window.location.replace("/logout");
+        let csrf = document.getElementById("csrf-token").value;
+        let csrf_header = document.getElementById("csrf-token-header").value;
+        $.ajax({
+          url: "/logout",
+          method: "post",
+          beforeSend: function( xhr ) {
+            xhr.setRequestHeader(csrf_header, csrf);
+          },
+          success: function (el) {
+            window.location.replace("/login");
+          }
+        })
       }
 
       return {

@@ -37,12 +37,17 @@ function ajaxLoadAttempts(attempts) {
 
 
 function ajaxAddAttempt(attempts, dot) {
+    let csrf = document.getElementById("csrf-token").value;
+    let csrf_header = document.getElementById("csrf-token-header").value;
     $.ajax({
         url: "/api/addAttempt",
         method: "post",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify(dot),
+        beforeSend: function( xhr ) {
+            xhr.setRequestHeader(csrf_header, csrf);
+        },
         success: function (el) {
             attempts.value.push(new Attempt(el.id, el.dot.x, el.dot.y, el.dot.r, el.result, el.processedAt, el.processingTime, el.owner));
         }

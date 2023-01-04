@@ -92,7 +92,7 @@ function drawAttempt(stage, width, height, xMiddle, yMiddle, r, attempt) {
 }
 
 
-function plotGraph(attemptsRel, rRel) {
+function plotGraph(attemptsRel, rRel, csrf) {
     let currentR = parseFloat(rRel.value);
     let attempts = attemptsRel.value;
     clearHolder();
@@ -113,7 +113,7 @@ function plotGraph(attemptsRel, rRel) {
     })
     
     document.getElementById("graph-holder").addEventListener("click", (event) => {
-        clickHandler(event, currentR, r, attemptsRel);
+        clickHandler(event, currentR, r, attemptsRel, csrf);
     });
 }
 

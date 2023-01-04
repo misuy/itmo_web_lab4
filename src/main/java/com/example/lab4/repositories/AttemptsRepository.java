@@ -2,6 +2,7 @@ package com.example.lab4.repositories;
 
 import com.example.lab4.entities.Attempt;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

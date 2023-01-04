@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>registration</title>
-    <script src="js/jquery.js"></script>
+    <script src="/js/jquery.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet"/>
     <style>
         * {
@@ -49,6 +49,8 @@
     </style>
 </head>
 <body>
+<input type="hidden" id="csrf-token" th:value="${_csrf.token}"/>
+<input type="hidden" id="csrf-token-header" th:value="${_csrf.headerName}"/>
 <div id="root">
     <table id="header-table">
         <tr>
@@ -100,11 +102,16 @@
             let user = ref(new User());
 
             function registration() {
+                let csrf = document.getElementById("csrf-token").value;
+                let csrf_header = document.getElementById("csrf-token-header").value;
                 $.ajax({
                     url: "/registration",
                     method: "post",
                     contentType: "application/json",
                     data: JSON.stringify(user.value),
+                    beforeSend: function( xhr ) {
+                        xhr.setRequestHeader(csrf_header, csrf);
+                    },
                     success: function(resp) {
                         window.location.replace("/login");
                     },
